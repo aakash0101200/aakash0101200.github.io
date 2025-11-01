@@ -1,17 +1,43 @@
 @import "tailwindcss";
 
-:root {
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  :root {
+    /* New Theme: A neutral, professional dark theme (slate) 
+      with a single, clean blue accent.
+    */
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-slate-900 text-gray-300 antialiased;
+    font-family: 'Inter', 'system-ui', 'Avenir', 'Helvetica', 'Arial', sans-serif;
+    
+    /* FIX: Prevents horizontal scrolling */
+    overflow-x: hidden;
+    
+    /* FIX: Hides scrollbar for Firefox */
+    scrollbar-width: none;
+  }
+
+  /* FIX: Hides scrollbar for Chrome, Safari, and Edge */
+  body::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-body {
-  margin: 0;
-  /* Let Tailwind handle the background and text colors */
-  @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+/* Custom fade-in animation for page loads */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+

@@ -1,118 +1,91 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-
-// --- Icon Components (to avoid external libraries) ---
-const MenuIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <line x1="4" x2="20" y1="12" y2="12" />
-    <line x1="4" x2="20" y1="6" y2="6" />
-    <line x1="4" x2="20" y1="18" y2="18" />
-  </svg>
-);
-
-const XIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M18 6 6 18" />
-    <path d="m6 6 12 12" />
-  </svg>
-);
+import { NavLink, Link } from 'react-router-dom';
+import { Menu, X, Code } from 'lucide-react';
 
 /**
- * A helper component for navigation links
- * This uses NavLink to automatically add styles to the active link
- */
-const NavItem = ({ to, children, onClick }) => (
-  <NavLink
-    to={to}
-    className={({ isActive }) =>
-      `block md:inline-block px-3 py-2 rounded-md text-base font-medium ${
-        isActive
-          ? 'bg-blue-600 text-white' // Active link style
-          : 'text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400' // Inactive link style
-      }`
-    }
-    onClick={onClick}
-  >
-    {children}
-  </NavLink>
-);
-
-/**
- * The main responsive Navbar component
+ * A responsive, sticky, and semi-transparent navigation bar.
+ * Features a mobile menu toggle and active link styling.
  */
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const closeMenu = () => setIsMobileMenuOpen(false);
+
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Projects', path: '/projects' },
+    { name: 'Contact', path: '/contact' },
+  ];
+
+  const commonLinkClasses = "px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300";
+  const activeLinkClass = "bg-gray-900 text-white";
+  const inactiveLinkClass = "text-gray-300 hover:bg-gray-700 hover:text-white";
 
   return (
-    <nav className="w-full bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex justify-between items-center">
-          {/* Logo/Brand Name */}
-          <NavLink
-            to="/"
-            className="text-2xl font-bold text-gray-800 dark:text-white"
-            onClick={closeMenu}
-          >
-            MyPortfolio
-          </NavLink>
-
-          {/* Mobile Menu Button (Hamburger) */}
-          <div className="md:hidden">
-            <button
-              type="button"
-              className="text-gray-800 dark:text-white"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle main menu"
-              aria-expanded={isMobileMenuOpen}
-            >
-              {isMobileMenuOpen ? <XIcon /> : <MenuIcon />}
-            </button>
+    <nav className="sticky top-0 z-50 bg-gray-950/80 backdrop-blur-lg border-b border-gray-700/30 shadow-lg">
+      <div className="container mx-auto px-6">
+        <div className="relative flex items-center justify-between h-16">
+          
+          {/* Logo / Site Title */}
+          <div className="flex-shrink-0">
+            <Link to="/" className="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors">
+              <Code className="h-7 w-7 text-indigo-400" />
+              <span className="font-bold text-xl tracking-tight">Aakash</span>
+            </Link>
           </div>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden md:flex md:items-center md:space-x-4">
-            <NavItem to="/" onClick={closeMenu}>Home</NavItem>
-            <NavItem to="/about" onClick={closeMenu}>About</NavItem>
-            <NavItem to="/projects" onClick={closeMenu}>Projects</NavItem>
-            <NavItem to="/contact" onClick={closeMenu}>Contact</NavItem>
+          <div className="hidden sm:ml-6 sm:flex sm:space-x-4">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.name}
+                to={link.path}
+                className={({ isActive }) => 
+                  `${commonLinkClasses} ${isActive ? activeLinkClass : inactiveLinkClass}`
+                }
+              >
+                {link.name}
+              </NavLink>
+            ))}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="sm:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              type="button"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              aria-controls="mobile-menu"
+              aria-expanded={isMobileMenuOpen}
+            >
+              <span className="sr-only">Open main menu</span>
+              {isMobileMenuOpen ? (
+                <X className="block h-6 w-6" aria-hidden="true" />
+              ) : (
+                <Menu className="block h-6 w-6" aria-hidden="true" />
+              )}
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu (Dropdown) */}
-      <div
-        className={`md:hidden transition-all duration-300 ease-in-out ${
-          isMobileMenuOpen
-            ? 'max-h-screen opacity-100 visible'
-            : 'max-h-0 opacity-0 invisible'
-        } overflow-hidden`}
+      {/* Mobile Menu Panel */}
+      <div 
+        className={`sm:hidden transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`} 
+        id="mobile-menu"
       >
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <NavItem to="/" onClick={closeMenu}>Home</NavItem>
-          <NavItem to="/about" onClick={closeMenu}>About</NavItem>
-          <NavItem to="/projects" onClick={closeMenu}>Projects</NavItem>
-          <NavItem to="/contact" onClick={closeMenu}>Contact</NavItem>
+        <div className="px-2 pt-2 pb-3 space-y-1">
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.name}
+              to={link.path}
+              onClick={() => setIsMobileMenuOpen(false)} // Close menu on click
+              className={({ isActive }) => 
+                `block px-3 py-2 rounded-md text-base font-medium ${isActive ? activeLinkClass : inactiveLinkClass}`
+              }
+            >
+              {link.name}
+            </NavLink>
+          ))}
         </div>
       </div>
     </nav>
@@ -120,3 +93,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

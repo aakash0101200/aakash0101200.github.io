@@ -32,7 +32,7 @@ const Footer = () => {
           {/* Copyright Notice */}
           <div className="text-center sm:text-left">
             <p className="text-sm text-gray-400">
-              &copy; {new Date().getFullYear()} Aakash. All rights reserved.
+              &copy; {new Date().getFullYear()} sky. All rights reserved.
             </p>
             <p className="mt-1 text-xs text-gray-500">
               Built with React, Tailwind CSS, and Vite.

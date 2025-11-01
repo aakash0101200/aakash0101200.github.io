@@ -116,7 +116,7 @@ const Contact = () => {
                   href="mailto:aakash.chauhan_cs12@gla.ac.in" // TODO: Update with your email
                   className="text-gray-300 hover:text-indigo-400 transition-colors duration-300"
                 >
-                  aakash.chauhan_cs12@gla.ac.in
+                  akgupta7700@gmail.com
                 </a>
               </div>
             </div>
@@ -128,7 +128,7 @@ const Contact = () => {
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-semibold text-white">Location</h3>
-                <p className="text-gray-300">[Your City, Country]</p>
+                <p className="text-gray-300">Jaipur, India</p>
                 <p className="text-sm text-gray-400">(Open to remote work)</p>
               </div>
             </div>

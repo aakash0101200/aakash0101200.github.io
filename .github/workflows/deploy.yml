@@ -2,7 +2,7 @@ name: Deploy Vite + React + Tailwind to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]   # or "master" if that's your default
+    branches: ["main"] # adjust if your default branch is different
 
 jobs:
   build-deploy:
@@ -11,19 +11,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: "20.19.0"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./my-portfolio
 
       - name: Build project
         run: npm run build
+        working-directory: ./my-portfolio
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./my-portfolio/dist
